@@ -1,0 +1,8 @@
+# kind runs containerd, so Chaos Mesh must be told which runtime and socket to use
+chaosDaemon:
+  runtime: containerd
+  socketPath: /run/containerd/containerd.sock
+controllerManager:
+  replicaCount: 1
+dashboard:
+  create: false

@@ -1,0 +1,77 @@
+extraScrapeConfigs: |
+  - job_name: otel-collector
+    scrape_interval: 15s
+    static_configs:
+      - targets: ["otel-collector.monitoring:8889"]
+
+serverFiles:
+  recording_rules.yml:
+    groups:
+      - name: checkout-slo
+        interval: 15s
+        rules:
+          - record: slo:checkout_error_ratio:rate5m
+            expr: (sum(rate(checkouts_total{outcome="error"}[5m])) or vector(0)) / sum(rate(checkouts_total[5m]))
+          - record: slo:checkout_error_ratio:rate30m
+            expr: (sum(rate(checkouts_total{outcome="error"}[30m])) or vector(0)) / sum(rate(checkouts_total[30m]))
+          - record: slo:checkout_error_ratio:rate1h
+            expr: (sum(rate(checkouts_total{outcome="error"}[1h])) or vector(0)) / sum(rate(checkouts_total[1h]))
+          - record: slo:checkout_slow_ratio:rate5m
+            expr: 1 - (sum(rate(checkout_duration_seconds_bucket{le="0.5"}[5m])) / sum(rate(checkout_duration_seconds_count[5m])))
+          - record: slo:checkout_slow_ratio:rate30m
+            expr: 1 - (sum(rate(checkout_duration_seconds_bucket{le="0.5"}[30m])) / sum(rate(checkout_duration_seconds_count[30m])))
+          - record: slo:checkout_slow_ratio:rate1h
+            expr: 1 - (sum(rate(checkout_duration_seconds_bucket{le="0.5"}[1h])) / sum(rate(checkout_duration_seconds_count[1h])))
+          - record: slo:checkout_availability_burn:rate5m
+            expr: slo:checkout_error_ratio:rate5m / 0.001
+          - record: slo:checkout_availability_burn:rate30m
+            expr: slo:checkout_error_ratio:rate30m / 0.001
+          - record: slo:checkout_availability_burn:rate1h
+            expr: slo:checkout_error_ratio:rate1h / 0.001
+          - record: slo:checkout_latency_burn:rate5m
+            expr: slo:checkout_slow_ratio:rate5m / 0.05
+          - record: slo:checkout_latency_burn:rate30m
+            expr: slo:checkout_slow_ratio:rate30m / 0.05
+          - record: slo:checkout_latency_burn:rate1h
+            expr: slo:checkout_slow_ratio:rate1h / 0.05
+  alerting_rules.yml:
+    groups:
+      - name: checkout-slo-alerts
+        rules:
+          - alert: CheckoutAvailabilityFastBurn
+            expr: slo:checkout_availability_burn:rate1h > 14.4 and slo:checkout_availability_burn:rate5m > 14.4
+            for: 1m
+            labels:
+              severity: critical
+              slo: availability
+            annotations:
+              summary: "Checkout availability budget is burning very fast"
+              description: "Burn rate is above 14.4 on both the 1h and 5m windows. At this pace the 30-day error budget is gone in about 2 days."
+          - alert: CheckoutAvailabilitySlowBurn
+            expr: slo:checkout_availability_burn:rate1h > 6 and slo:checkout_availability_burn:rate30m > 6
+            for: 5m
+            labels:
+              severity: warning
+              slo: availability
+            annotations:
+              summary: "Checkout availability budget is burning steadily"
+              description: "Burn rate is above 6 on both the 1h and 30m windows. At this pace the 30-day error budget is gone in about 5 days."
+          - alert: CheckoutLatencyFastBurn
+            expr: slo:checkout_latency_burn:rate1h > 14.4 and slo:checkout_latency_burn:rate5m > 14.4
+            for: 1m
+            labels:
+              severity: critical
+              slo: latency
+            annotations:
+              summary: "Checkout latency budget is burning very fast"
+              description: "Slow checkouts (over 500 ms) are burning the latency budget at more than 14.4 times the allowed pace on both the 1h and 5m windows."
+          - alert: CheckoutLatencySlowBurn
+            expr: slo:checkout_latency_burn:rate1h > 6 and slo:checkout_latency_burn:rate30m > 6
+            for: 5m
+            labels:
+              severity: warning
+              slo: latency
+            annotations:
+              summary: "Checkout latency budget is burning steadily"
+              description: "Slow checkouts are burning the latency budget at more than 6 times the allowed pace on both the 1h and 30m windows."
+     

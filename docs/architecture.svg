@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 640" width="1040" height="640" font-family="Arial, Helvetica, sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#444"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="640" fill="#ffffff"/>
+  <text x="20" y="24" font-size="17" font-weight="bold" fill="#1f2937">Full-Stack Observability and SRE Incident Lab: architecture</text>
+
+  <!-- namespace boxes -->
+  <rect x="20" y="80" width="300" height="370" rx="10" fill="#eef6ff" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="34" y="100" font-size="13" font-weight="bold" fill="#1d4ed8">namespace: app</text>
+  <rect x="360" y="44" width="660" height="470" rx="10" fill="#f6f3ff" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="374" y="64" font-size="13" font-weight="bold" fill="#6d28d9">namespace: monitoring</text>
+  <rect x="20" y="500" width="300" height="100" rx="10" fill="#fff4e8" stroke="#f97316" stroke-width="1.5"/>
+  <text x="34" y="520" font-size="13" font-weight="bold" fill="#c2410c">namespace: chaos-mesh</text>
+
+  <!-- client -->
+  <rect x="50" y="40" width="240" height="30" rx="6" fill="#f3f4f6" stroke="#6b7280"/>
+  <text x="170" y="60" font-size="13" text-anchor="middle" fill="#111827">Client / load (curl loop)</text>
+  <line x1="170" y1="70" x2="170" y2="122" stroke="#444" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- app services -->
+  <rect x="50" y="125" width="240" height="56" rx="8" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="170" y="148" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">frontend :8003</text>
+  <text x="170" y="167" font-size="12" text-anchor="middle" fill="#4b5563">GET /checkout</text>
+  <rect x="50" y="235" width="240" height="56" rx="8" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="170" y="258" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">orders :8002</text>
+  <text x="170" y="277" font-size="12" text-anchor="middle" fill="#4b5563">POST /orders</text>
+  <rect x="50" y="345" width="240" height="56" rx="8" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="170" y="368" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">payments :8001</text>
+  <text x="170" y="387" font-size="12" text-anchor="middle" fill="#4b5563">POST /charge</text>
+  <line x1="170" y1="181" x2="170" y2="233" stroke="#444" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="170" y1="291" x2="170" y2="343" stroke="#444" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="178" y="211" font-size="11" fill="#4b5563">HTTP</text>
+  <text x="178" y="321" font-size="11" fill="#4b5563">HTTP</text>
+
+  <!-- chaos mesh -->
+  <rect x="50" y="530" width="240" height="56" rx="8" fill="#ffffff" stroke="#f97316" stroke-width="1.5"/>
+  <text x="170" y="553" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">Chaos Mesh</text>
+  <text x="170" y="572" font-size="12" text-anchor="middle" fill="#4b5563">controller + daemon</text>
+  <line x1="170" y1="530" x2="170" y2="403" stroke="#f97316" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#arr)"/>
+  <text x="180" y="480" font-size="11" fill="#c2410c">inject faults</text>
+  <text x="180" y="494" font-size="11" fill="#c2410c">(pod failure, latency)</text>
+
+  <!-- monitoring components -->
+  <rect x="390" y="195" width="170" height="56" rx="8" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="475" y="218" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">OTel Collector</text>
+  <text x="475" y="237" font-size="12" text-anchor="middle" fill="#4b5563">:4318 in, :8889 metrics</text>
+
+  <rect x="620" y="76" width="150" height="50" rx="8" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="695" y="106" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">Alertmanager</text>
+  <rect x="620" y="160" width="150" height="50" rx="8" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="695" y="190" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">Prometheus</text>
+  <rect x="620" y="250" width="150" height="50" rx="8" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="695" y="280" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">Tempo</text>
+  <rect x="620" y="340" width="150" height="50" rx="8" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="695" y="370" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">Loki</text>
+  <rect x="390" y="340" width="170" height="56" rx="8" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="475" y="363" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">Alloy</text>
+  <text x="475" y="382" font-size="12" text-anchor="middle" fill="#4b5563">log collector</text>
+  <rect x="850" y="250" width="150" height="50" rx="8" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="925" y="280" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">Grafana :3000</text>
+  <rect x="850" y="76" width="150" height="50" rx="8" fill="#f3f4f6" stroke="#6b7280" stroke-dasharray="4 3"/>
+  <text x="925" y="106" font-size="13" text-anchor="middle" fill="#111827">Email (SMTP)</text>
+
+  <!-- telemetry from app to collector -->
+  <line x1="290" y1="153" x2="388" y2="212" stroke="#444" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="290" y1="263" x2="388" y2="223" stroke="#444" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="290" y1="373" x2="388" y2="236" stroke="#444" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="294" y="120" font-size="11" fill="#4b5563">OTLP/HTTP</text>
+  <text x="294" y="133" font-size="11" fill="#4b5563">metrics + traces</text>
+
+  <!-- collector -> tempo (push) -->
+  <line x1="560" y1="235" x2="618" y2="270" stroke="#444" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="500" y="285" font-size="11" fill="#4b5563">OTLP :4317</text>
+  <text x="500" y="298" font-size="11" fill="#4b5563">(traces)</text>
+
+  <!-- prometheus scrapes collector (pull) -->
+  <line x1="620" y1="185" x2="562" y2="205" stroke="#444" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr)"/>
+  <text x="566" y="172" font-size="11" fill="#4b5563">scrape</text>
+  <text x="566" y="184" font-size="11" fill="#4b5563">(pull)</text>
+
+  <!-- prometheus -> alertmanager -> email -->
+  <line x1="695" y1="160" x2="695" y2="128" stroke="#444" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="703" y="147" font-size="11" fill="#4b5563">alerts</text>
+  <line x1="770" y1="101" x2="848" y2="101" stroke="#444" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="780" y="94" font-size="11" fill="#4b5563">notify</text>
+
+  <!-- alloy: logs -->
+  <line x1="390" y1="372" x2="292" y2="395" stroke="#444" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr)"/>
+  <text x="300" y="428" font-size="11" fill="#4b5563">reads pod logs</text>
+  <text x="300" y="440" font-size="11" fill="#4b5563">(K8s API)</text>
+  <line x1="560" y1="368" x2="618" y2="365" stroke="#444" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="566" y="358" font-size="11" fill="#4b5563">push</text>
+
+  <!-- grafana queries stores (query) -->
+  <line x1="850" y1="265" x2="772" y2="190" stroke="#444" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr)"/>
+  <line x1="850" y1="275" x2="772" y2="275" stroke="#444" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr)"/>
+  <line x1="850" y1="285" x2="772" y2="360" stroke="#444" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr)"/>
+  <text x="780" y="318" font-size="11" fill="#4b5563">queries</text>
+
+  <!-- notes inside monitoring box -->
+  <text x="390" y="455" font-size="12" fill="#374151">Trace IDs in log lines link Loki to Tempo, and Tempo back to Loki.</text>
+  <text x="390" y="473" font-size="12" fill="#374151">SLO recording rules and burn-rate alerts live in Prometheus;</text>
+  <text x="390" y="491" font-size="12" fill="#374151">dashboards are provisioned into Grafana from dashboards/slo-dashboard.json.</text>
+
+  <!-- legend -->
+  <line x1="660" y1="560" x2="720" y2="560" stroke="#444" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="730" y="564" font-size="12" fill="#374151">data pushed to the target</text>
+  <line x1="660" y1="582" x2="720" y2="582" stroke="#444" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr)"/>
+  <text x="730" y="586" font-size="12" fill="#374151">target is pulled or queried</text>
+  <line x1="660" y1="604" x2="720" y2="604" stroke="#f97316" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#arr)"/>
+  <text x="730" y="608" font-size="12" fill="#374151">fault injection</text>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTo4Y2NjOWI4ZC02OTk1LTRmMDAtOTQzMy02YTdkYWE3YzAzODAAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaGjBrHljilg0S2Jq/zg8HkYAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDo4MjE3ZTYzOS1jNWU2LTQ1OTEtODgyZC05MDY3YTFkODgwODNscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNobtzqAGuH0cEa9j/bVmeexgAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggtoowxgybarW9SwjTCmWObZz75jz2/y+nJJhzStYw27ukZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaIpmbD05YwuKJs8FnoIya5oAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIDMFAXPtk1ll0CQzQHqGu9rThI7cKAjo3TWeQlXgGOpBZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GSL6Zmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjhjY2M5YjhkLTY5OTUtNGYwMC05NDMzLTZhN2RhYTdjMDM4MC9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjE0YTUwOWVhLWZjMDgtNDk4ZC05YTNmLTg2YmVlYTdkMmM4ZnJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCC2ijDGDJtqtb1LCNMKZY5tnPvmPPb/L6ckmHNK1jDbu6JjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFgg5xXopXf0Cja8VxQI9+ZSc3DC9kl9wN3egVBrzXR63iSiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFgg23ijPK7276qEDbN9v16/FnBQWL1SCq4vw5LxX8eDu+F0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQAk0l+F9syFRtimUOjo+vstuHn5Hul87JBLSWJ1NDcoq+ngXIAYe3RsqF/v8+4zt7KCzWtgwoiLpHsSflt/hsVM=</c2pa:manifest></metadata></svg>
